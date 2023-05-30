@@ -1,12 +1,16 @@
 import cv2 as cv
 from gpiozero import AngularServo
 import numpy as np
-
+from simple_pid import PID
 
 servo = AngularServo(18, min_pulse_width=0.0006, max_pulse_width=0.0023)
 cap = cv.VideoCapture(0)
 from gpiozero import PWMLED
 led = PWMLED(12)
+kp = 1.4
+ki =0.005
+kd =0.002
+pid = PID(kp, ki, kd, setpoint=0,output_limits=(-25, 25))
 
 while True:
     # Capture frame-by-frame
@@ -67,14 +71,14 @@ while True:
         x6=x6+1"""
 
        
-    angle=((x2+x1)/2)-120 #angulo centro
     angle2=-(((x4+x3)/2)-120)*1.4 #angulo abajo
-    #angle3=((x6+x5)/2)-120 #angulo arriba
-    if -70<=angle2<=70:
-        servo.angle = (angle2)
-   
-   
-    if -47<angle2<-26:
+    pidout=pid(angle2)
+    pidout = pidout* -1
+    servo= pidout
+
+    if -70<=servo<=70:
+        servo.angle = (servo)
+    if -47<servo<-26:
         led.value=0.9
     elif servo.angle<-47:
         led.value=0.85
