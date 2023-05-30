@@ -58,19 +58,6 @@ while True:
             break
         x4=x4+1
 
-    """while x5>0: #coordenada izquierda arriba
-        img=int(th2[0][x5]/255)
-        if img==0:
-            break
-        x5=x5-1
-       
-    while x6<240: #coordenada derecha arriba
-        img=int(th2[0][x6]/255)
-        if img==0:
-            break
-        x6=x6+1"""
-
-       
     angle2=-(((x4+x3)/2)-120)*1.4 #angulo abajo
     pidout=pid(angle2)
     pidout = pidout* -1
